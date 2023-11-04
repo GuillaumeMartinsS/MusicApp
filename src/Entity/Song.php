@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SongRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,6 +73,28 @@ class Song
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="songs")
+     */
+    private $genres;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Playlist::class, inversedBy="songs")
+     */
+    private $playlists;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="song", orphanRemoval=true)
+     */
+    private $reviews;
+
+    public function __construct()
+    {
+        $this->genres = new ArrayCollection();
+        $this->playlists = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -205,6 +229,84 @@ class Song
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(Genre $genre): self
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres[] = $genre;
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): self
+    {
+        $this->genres->removeElement($genre);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlist>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): self
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists[] = $playlist;
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): self
+    {
+        $this->playlists->removeElement($playlist);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setSong($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getSong() === $this) {
+                $review->setSong(null);
+            }
+        }
 
         return $this;
     }

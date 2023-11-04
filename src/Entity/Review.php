@@ -42,6 +42,12 @@ class Review
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Song::class, inversedBy="reviews")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $song;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +109,18 @@ class Review
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getSong(): ?Song
+    {
+        return $this->song;
+    }
+
+    public function setSong(?Song $song): self
+    {
+        $this->song = $song;
 
         return $this;
     }

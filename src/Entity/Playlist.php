@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlaylistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,16 @@ class Playlist
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Song::class, mappedBy="playlists")
+     */
+    private $songs;
+
+    public function __construct()
+    {
+        $this->songs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,6 +183,33 @@ class Playlist
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Song>
+     */
+    public function getSongs(): Collection
+    {
+        return $this->songs;
+    }
+
+    public function addSong(Song $song): self
+    {
+        if (!$this->songs->contains($song)) {
+            $this->songs[] = $song;
+            $song->addPlaylist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSong(Song $song): self
+    {
+        if ($this->songs->removeElement($song)) {
+            $song->removePlaylist($this);
+        }
 
         return $this;
     }
