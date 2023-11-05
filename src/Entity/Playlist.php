@@ -69,6 +69,12 @@ class Playlist
      */
     private $songs;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="playlists")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->songs = new ArrayCollection();
@@ -210,6 +216,18 @@ class Playlist
         if ($this->songs->removeElement($song)) {
             $song->removePlaylist($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
