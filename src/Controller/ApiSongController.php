@@ -117,11 +117,11 @@ class ApiSongController extends AbstractController
                 $uploadedName
             );
 
-            // if the file is a picture, it goes as a value for the picture property
+            // if the file is a picture, its name goes as a value for the picture property
             if($key === 'picture'){
                 $songEntity->setPicture($uploadedName);
 
-            // if the file is an audio file, it goes as a value for the file property
+            // if the file is an audio file, its name goes as a value for the file property
             } else {
                 $songEntity->setFile($uploadedName);
             }
