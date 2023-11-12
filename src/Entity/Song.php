@@ -101,29 +101,21 @@ class Song
 
     /**
      * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="songs")
-     * @Groups({"list_song"})
-     * @Groups({"show_song"})
      */
     private $genres;
 
     /**
      * @ORM\ManyToMany(targetEntity=Playlist::class, inversedBy="songs")
-     * @Groups({"list_song"})
-     * @Groups({"show_song"})
      */
     private $playlists;
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="song", orphanRemoval=true)
-     * @Groups({"list_song"})
-     * @Groups({"show_song"})
      */
     private $reviews;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="songs")
-     * @Groups({"list_song"})
-     * @Groups({"show_song"})
      */
     private $users;
 
