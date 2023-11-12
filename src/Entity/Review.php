@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ReviewRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ReviewRepository::class)
@@ -14,43 +15,79 @@ class Review
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
+     * @Groups({"list_user"})
+     * @Groups({"show_user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
+     * @Groups({"list_user"})
+     * @Groups({"show_user"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
+     * @Groups({"list_user"})
+     * @Groups({"show_user"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Song::class, inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
      */
     private $song;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_review"})
+     * @Groups({"show_review"})
      */
     private $user;
 

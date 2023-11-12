@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use App\Repository\GenreRepository;
 use App\Entity\Genre;
+use App\Models\JsonError;
+use App\Repository\GenreRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 
 class ApiGenreController extends AbstractController
 {
@@ -30,7 +31,8 @@ class ApiGenreController extends AbstractController
     public function showGenre(Genre $genre = null)
     {
         if ($genre === null){
-            //TO DO
+            $error = new JsonError(Response::HTTP_NOT_FOUND, Genre::class . ' non trouvé');
+            return $this->json($error, $error->getError());
         }
 
         return $this->json(

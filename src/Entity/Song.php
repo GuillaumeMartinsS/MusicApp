@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\SongRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SongRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SongRepository::class)
@@ -16,81 +17,113 @@ class Song
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $file;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $releaseDate;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $nbLike;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $nbListened;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="songs")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $genres;
 
     /**
      * @ORM\ManyToMany(targetEntity=Playlist::class, inversedBy="songs")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $playlists;
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="song", orphanRemoval=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $reviews;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="songs")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $users;
 

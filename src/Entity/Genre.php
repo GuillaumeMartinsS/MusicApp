@@ -19,6 +19,8 @@ class Genre
      * @ORM\Column(type="integer")
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $id;
 
@@ -26,6 +28,8 @@ class Genre
      * @ORM\Column(type="string", length=255)
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $name;
 
@@ -33,6 +37,8 @@ class Genre
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $picture;
 
@@ -40,6 +46,8 @@ class Genre
      * @ORM\Column(type="text", nullable=true)
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $description;
 
@@ -47,6 +55,8 @@ class Genre
      * @ORM\Column(type="integer")
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $status;
 
@@ -54,6 +64,8 @@ class Genre
      * @ORM\Column(type="string", length=255)
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $slug;
 
@@ -61,6 +73,8 @@ class Genre
      * @ORM\Column(type="datetime_immutable")
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $createdAt;
 
@@ -68,6 +82,8 @@ class Genre
      * @ORM\Column(type="datetime", nullable=true)
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
      */
     private $updatedAt;
 
@@ -75,6 +91,7 @@ class Genre
      * @ORM\ManyToMany(targetEntity=Song::class, mappedBy="genres")
      * @Groups({"list_genre"})
      * @Groups({"show_genre"})
+     * 
      */
     private $songs;
 
