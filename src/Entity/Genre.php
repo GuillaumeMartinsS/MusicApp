@@ -6,6 +6,7 @@ use App\Repository\GenreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GenreRepository::class)
@@ -16,46 +17,64 @@ class Genre
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity=Song::class, mappedBy="genres")
+     * @Groups({"list_genre"})
+     * @Groups({"show_genre"})
      */
     private $songs;
 
