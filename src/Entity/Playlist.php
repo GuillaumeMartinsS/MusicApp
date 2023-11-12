@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PlaylistRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlaylistRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PlaylistRepository::class)
@@ -16,51 +17,89 @@ class Playlist
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $picture;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $album;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $nbLike;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"list_song"})
+     * @Groups({"show_song"})
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $updatedAt;
 
@@ -72,6 +111,8 @@ class Playlist
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="playlists")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"list_playlist"})
+     * @Groups({"show_playlist"})
      */
     private $user;
 
