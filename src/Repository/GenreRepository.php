@@ -63,4 +63,20 @@ class GenreRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    // Function for search bar, non strict research
+    public function findGenreByName($filter)
+    {
+        $result = $this->createQueryBuilder('p')
+
+            ->where('p.name LIKE :filter')
+
+            ->setParameter('filter', '%' . $filter . '%')
+
+            ->getQuery()
+
+            ->getResult();
+
+        return $result;
+    }
 }
