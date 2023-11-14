@@ -63,4 +63,21 @@ class PlaylistRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    // Function for search bar, non strict research
+    public function findPlaylistByName($filter)
+    {
+        $result = $this->createQueryBuilder('p')
+
+            // alias "p" is given to playlist table
+            ->where('p.name LIKE :filter')
+
+            ->setParameter('filter', '%' . $filter . '%')
+
+            ->getQuery()
+
+            ->getResult();
+
+        return $result;
+    }
 }

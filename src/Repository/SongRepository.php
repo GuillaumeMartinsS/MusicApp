@@ -63,4 +63,22 @@ class SongRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    // Function for search bar, non strict research, querybuilder is used
+    public function findSongByTitle($filter)
+    {
+        // alias "s" is given to song table
+        $result = $this->createQueryBuilder('s')
+
+            // we want every song that has our filter value in it
+            ->where('s.title LIKE :filter')
+
+            ->setParameter('filter', '%' . $filter . '%')
+
+            ->getQuery()
+
+            ->getResult();
+
+        return $result;
+    }
 }
