@@ -69,6 +69,7 @@ class PlaylistRepository extends ServiceEntityRepository
     {
         $result = $this->createQueryBuilder('p')
 
+            // alias "p" is given to playlist table
             ->where('p.name LIKE :filter')
 
             ->setParameter('filter', '%' . $filter . '%')

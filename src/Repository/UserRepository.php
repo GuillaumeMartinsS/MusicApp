@@ -84,9 +84,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     // Function for search bar, non strict research
     public function findUserByName($filter)
     {
-        $result = $this->createQueryBuilder('p')
+        $result = $this->createQueryBuilder('u')
 
-            ->where('p.name LIKE :filter')
+            // alias "u" is given to user table
+            ->where('u.name LIKE :filter')
 
             ->setParameter('filter', '%' . $filter . '%')
 

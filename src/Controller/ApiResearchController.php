@@ -45,7 +45,7 @@ class ApiResearchController extends AbstractController
             'genre' => $genreResult],
             200,
             [],
-            ['groups'=> ['list_user'],['list_song'],['list_playlist'],['list_genre']]
+            ['groups'=> ['list_song'],['list_user'],['list_playlist'],['list_genre']]
         );
     }
 }

@@ -67,9 +67,10 @@ class GenreRepository extends ServiceEntityRepository
     // Function for search bar, non strict research
     public function findGenreByName($filter)
     {
-        $result = $this->createQueryBuilder('p')
+        $result = $this->createQueryBuilder('g')
 
-            ->where('p.name LIKE :filter')
+            // alias "g" is given to genre table
+            ->where('g.name LIKE :filter')
 
             ->setParameter('filter', '%' . $filter . '%')
 
