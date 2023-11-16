@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Playlist index{% endblock %}
+
+{% block body %}
+    <h1>Playlist index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Picture</th>
+                <th>Description</th>
+                <th>Album</th>
+                <th>Status</th>
+                <th>NbLike</th>
+                <th>Slug</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for playlist in playlists %}
+            <tr>
+                <td>{{ playlist.id }}</td>
+                <td>{{ playlist.name }}</td>
+                <td>{{ playlist.picture }}</td>
+                <td>{{ playlist.description }}</td>
+                <td>{{ playlist.album ? 'Yes' : 'No' }}</td>
+                <td>{{ playlist.status }}</td>
+                <td>{{ playlist.nbLike }}</td>
+                <td>{{ playlist.slug }}</td>
+                <td>{{ playlist.createdAt ? playlist.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ playlist.updatedAt ? playlist.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_back_playlist_show', {'id': playlist.id}) }}">show</a>
+                    <a href="{{ path('app_back_playlist_edit', {'id': playlist.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_back_playlist_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Song{% endblock %}
+
+{% block body %}
+    <h1>Song</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ song.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ song.title }}</td>
+            </tr>
+            <tr>
+                <th>File</th>
+                <td>{{ song.file }}</td>
+            </tr>
+            <tr>
+                <th>Picture</th>
+                <td>{{ song.picture }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ song.description }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ song.status }}</td>
+            </tr>
+            <tr>
+                <th>ReleaseDate</th>
+                <td>{{ song.releaseDate ? song.releaseDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NbLike</th>
+                <td>{{ song.nbLike }}</td>
+            </tr>
+            <tr>
+                <th>NbListened</th>
+                <td>{{ song.nbListened }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ song.slug }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ song.createdAt ? song.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ song.updatedAt ? song.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_back_song_index') }}">back to list</a>
+
+    <a href="{{ path('app_back_song_edit', {'id': song.id}) }}">edit</a>
+
+    {{ include('back_song/_delete_form.html.twig') }}
+{% endblock %}

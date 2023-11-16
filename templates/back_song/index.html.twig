@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Song index{% endblock %}
+
+{% block body %}
+    <h1>Song index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>File</th>
+                <th>Picture</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>ReleaseDate</th>
+                <th>NbLike</th>
+                <th>NbListened</th>
+                <th>Slug</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for song in songs %}
+            <tr>
+                <td>{{ song.id }}</td>
+                <td>{{ song.title }}</td>
+                <td>{{ song.file }}</td>
+                <td>{{ song.picture }}</td>
+                <td>{{ song.description }}</td>
+                <td>{{ song.status }}</td>
+                <td>{{ song.releaseDate ? song.releaseDate|date('Y-m-d') : '' }}</td>
+                <td>{{ song.nbLike }}</td>
+                <td>{{ song.nbListened }}</td>
+                <td>{{ song.slug }}</td>
+                <td>{{ song.createdAt ? song.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ song.updatedAt ? song.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_back_song_show', {'id': song.id}) }}">show</a>
+                    <a href="{{ path('app_back_song_edit', {'id': song.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_back_song_new') }}">Create new</a>
+{% endblock %}
