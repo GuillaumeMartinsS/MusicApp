@@ -2,13 +2,15 @@
 
 namespace App\Controller\BackOffice;
 
+use DateTime;
 use App\Entity\Song;
 use App\Form\SongType;
+use DateTimeImmutable;
 use App\Repository\SongRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/song")
@@ -35,6 +37,32 @@ class BackSongController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $song->setCreatedAt(new DateTimeImmutable('now'));
+            $uploadPicture = $form->get('picture')->getData();
+
+                if ($uploadPicture) {
+                    $uploadedNamePicture = md5(uniqid()) . '.' . $uploadPicture->guessExtension();
+
+                    $uploadPicture->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedNamePicture
+                    );
+                
+                    $song->setPicture($uploadedNamePicture);
+                }
+
+            $uploadSong = $form->get('file')->getData();
+
+                if ($uploadSong) {
+                    $uploadedNameSong = md5(uniqid()) . '.' . $uploadSong->guessExtension();
+
+                    $uploadSong->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedNameSong
+                    );
+                
+                    $song->setFile($uploadedNameSong);
+                }
             $songRepository->add($song, true);
 
             return $this->redirectToRoute('app_back_song_index', [], Response::HTTP_SEE_OTHER);
@@ -61,10 +89,44 @@ class BackSongController extends AbstractController
      */
     public function edit(Request $request, Song $song, SongRepository $songRepository): Response
     {
+        $songFirstPicture = $song->getPicture();
+        $songFirstFile = $song->getFile();
+
         $form = $this->createForm(SongType::class, $song);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $song->setUpdatedAt(new DateTime ('now'));
+
+            $uploadPicture = $form->get('picture')->getData();
+
+                if ($uploadPicture != null) {
+                    $uploadedNamePicture = md5(uniqid()) . '.' . $uploadPicture->guessExtension();
+
+                    $uploadPicture->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedNamePicture
+                    );
+                
+                    $song->setPicture($uploadedNamePicture);
+                }else {
+                    $song->setPicture($songFirstPicture);
+                }
+
+            $uploadSong = $form->get('file')->getData();
+
+                if ($uploadSong != null) {
+                    $uploadedNameSong = md5(uniqid()) . '.' . $uploadSong->guessExtension();
+
+                    $uploadSong->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedNameSong
+                    );
+                
+                    $song->setFile($uploadedNameSong);
+                }else {
+                    $song->setFile($songFirstFile);
+                }
             $songRepository->add($song, true);
 
             return $this->redirectToRoute('app_back_song_index', [], Response::HTTP_SEE_OTHER);

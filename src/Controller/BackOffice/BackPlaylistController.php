@@ -2,13 +2,15 @@
 
 namespace App\Controller\BackOffice;
 
+use DateTime;
+use DateTimeImmutable;
 use App\Entity\Playlist;
 use App\Form\PlaylistType;
 use App\Repository\PlaylistRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/playlist")
@@ -35,6 +37,24 @@ class BackPlaylistController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $playlist->setCreatedAt(new DateTimeImmutable('now'));
+            
+            //! To Do with an event :
+            $playlist->setSlug('slugachanger');
+
+            $uploadFile = $form->get('picture')->getData();
+
+                if ($uploadFile) {
+                    $uploadedName = md5(uniqid()) . '.' . $uploadFile->guessExtension();
+
+                    $uploadFile->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedName
+                    );
+                
+                    $playlist->setPicture($uploadedName);
+                }
+
             $playlistRepository->add($playlist, true);
 
             return $this->redirectToRoute('app_back_playlist_index', [], Response::HTTP_SEE_OTHER);
@@ -61,10 +81,27 @@ class BackPlaylistController extends AbstractController
      */
     public function edit(Request $request, Playlist $playlist, PlaylistRepository $playlistRepository): Response
     {
+        $playlistFirstPicture = $playlist->getPicture();
+
         $form = $this->createForm(PlaylistType::class, $playlist);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $playlist->setUpdatedAt(new DateTime ('now'));
+            $uploadFile = $form->get('picture')->getData();
+
+                if ($uploadFile != null) {
+                    $uploadedName = md5(uniqid()) . '.' . $uploadFile->guessExtension();
+
+                    $uploadFile->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedName
+                    );
+                
+                    $playlist->setPicture($uploadedName);
+                } else {
+                    $playlist->setPicture($playlistFirstPicture);
+                }
             $playlistRepository->add($playlist, true);
 
             return $this->redirectToRoute('app_back_playlist_index', [], Response::HTTP_SEE_OTHER);

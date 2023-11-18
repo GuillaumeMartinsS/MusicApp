@@ -2,13 +2,15 @@
 
 namespace App\Controller\BackOffice;
 
+use DateTime;
 use App\Entity\Review;
+use DateTimeImmutable;
 use App\Form\ReviewType;
 use App\Repository\ReviewRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/review")
@@ -35,6 +37,7 @@ class BackReviewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $review->setCreatedAt(new DateTimeImmutable('now'));
             $reviewRepository->add($review, true);
 
             return $this->redirectToRoute('app_back_review_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +68,7 @@ class BackReviewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $review->setUpdatedAt(new DateTime ('now'));
             $reviewRepository->add($review, true);
 
             return $this->redirectToRoute('app_back_review_index', [], Response::HTTP_SEE_OTHER);

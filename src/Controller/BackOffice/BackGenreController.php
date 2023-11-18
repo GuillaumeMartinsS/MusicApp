@@ -2,13 +2,15 @@
 
 namespace App\Controller\BackOffice;
 
+use DateTime;
 use App\Entity\Genre;
+use DateTimeImmutable;
 use App\Form\GenreType;
 use App\Repository\GenreRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/genre")
@@ -35,6 +37,21 @@ class BackGenreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $genre->setCreatedAt(new DateTimeImmutable('now'));
+            //! To Do with an event :
+            $genre->setSlug('slugachanger');
+            $uploadFile = $form->get('picture')->getData();
+
+                if ($uploadFile) {
+                    $uploadedName = md5(uniqid()) . '.' . $uploadFile->guessExtension();
+
+                    $uploadFile->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedName
+                    );
+                
+                    $genre->setPicture($uploadedName);
+                }
             $genreRepository->add($genre, true);
 
             return $this->redirectToRoute('app_back_genre_index', [], Response::HTTP_SEE_OTHER);
@@ -61,10 +78,28 @@ class BackGenreController extends AbstractController
      */
     public function edit(Request $request, Genre $genre, GenreRepository $genreRepository): Response
     {
+        $genreFirstPicture = $genre->getPicture();
+
         $form = $this->createForm(GenreType::class, $genre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $genre->setUpdatedAt(new DateTime ('now'));
+            //! To Change :
+            $uploadFile = $form->get('picture')->getData();
+
+                if ($uploadFile != null) {
+                    $uploadedName = md5(uniqid()) . '.' . $uploadFile->guessExtension();
+
+                    $uploadFile->move(
+                        $this->getParameter('upload_directory'),
+                        $uploadedName
+                    );
+                
+                    $genre->setPicture($uploadedName);
+                } else {
+                    $genre->setPicture($genreFirstPicture);
+                }
             $genreRepository->add($genre, true);
 
             return $this->redirectToRoute('app_back_genre_index', [], Response::HTTP_SEE_OTHER);
