@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Playlist{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Create new Playlist</h1>
+
+        <a class="btn btn-info" href="{{ path('back_playlist_index') }}">Back to list</a>
+
+        {{ include('back_playlist/_new_form.html.twig') }}
+    </div>
+{% endblock %}

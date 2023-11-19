@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chanson{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Chanson</h1>
+
+        <a class="btn btn-info" href="{{ path('back_song_index') }}">Back to list</a>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ song.id }}</td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td>{{ song.title }}</td>
+                </tr>
+                <tr>
+                    <th>File</th>
+                    <td>{{ song.file }}</td>
+                </tr>
+                <tr>
+                    <th>Picture</th>
+                    <td>{{ song.picture }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ song.description }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ song.status }}</td>
+                </tr>
+                <tr>
+                    <th>ReleaseDate</th>
+                    <td>{{ song.releaseDate ? song.releaseDate|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>NbLike</th>
+                    <td>{{ song.nbLike }}</td>
+                </tr>
+                <tr>
+                    <th>NbListened</th>
+                    <td>{{ song.nbListened }}</td>
+                </tr>
+                <tr>
+                    <th>Slug</th>
+                    <td>{{ song.slug }}</td>
+                </tr>
+                <tr>
+                    <th>CreatedAt</th>
+                    <td>{{ song.createdAt ? song.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>UpdatedAt</th>
+                    <td>{{ song.updatedAt ? song.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-success" href="{{ path('back_song_edit', {'id': song.id}) }}">Edit</a>
+
+            {{ include('back_song/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

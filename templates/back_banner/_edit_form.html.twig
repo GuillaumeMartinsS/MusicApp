@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-success">{{ button_label_save|default('Save') }}</button>
+            {# {{ include('back_banner/_delete_form.html.twig') }} #}
+        </div>
+{{ form_end(form) }}
