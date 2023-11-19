@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BackGenreController extends AbstractController
 {
     /**
-     * @Route("/", name="app_back_genre_index", methods={"GET"})
+     * @Route("/", name="back_genre_index", methods={"GET"})
      */
     public function index(GenreRepository $genreRepository): Response
     {
@@ -28,7 +28,7 @@ class BackGenreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_back_genre_new", methods={"GET", "POST"})
+     * @Route("/new", name="back_genre_new", methods={"GET", "POST"})
      */
     public function new(Request $request, GenreRepository $genreRepository): Response
     {
@@ -54,7 +54,7 @@ class BackGenreController extends AbstractController
                 }
             $genreRepository->add($genre, true);
 
-            return $this->redirectToRoute('app_back_genre_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_genre_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_genre/new.html.twig', [
@@ -64,7 +64,7 @@ class BackGenreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_genre_show", methods={"GET"})
+     * @Route("/{id}", name="back_genre_show", methods={"GET"})
      */
     public function show(Genre $genre): Response
     {
@@ -74,7 +74,7 @@ class BackGenreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_back_genre_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="back_genre_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Genre $genre, GenreRepository $genreRepository): Response
     {
@@ -102,7 +102,7 @@ class BackGenreController extends AbstractController
                 }
             $genreRepository->add($genre, true);
 
-            return $this->redirectToRoute('app_back_genre_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_genre_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_genre/edit.html.twig', [
@@ -112,7 +112,7 @@ class BackGenreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_genre_delete", methods={"POST"})
+     * @Route("/{id}", name="back_genre_delete", methods={"POST"})
      */
     public function delete(Request $request, Genre $genre, GenreRepository $genreRepository): Response
     {
@@ -120,6 +120,6 @@ class BackGenreController extends AbstractController
             $genreRepository->remove($genre, true);
         }
 
-        return $this->redirectToRoute('app_back_genre_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('back_genre_index', [], Response::HTTP_SEE_OTHER);
     }
 }

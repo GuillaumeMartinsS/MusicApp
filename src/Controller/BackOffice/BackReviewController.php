@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BackReviewController extends AbstractController
 {
     /**
-     * @Route("/", name="app_back_review_index", methods={"GET"})
+     * @Route("/", name="back_review_index", methods={"GET"})
      */
     public function index(ReviewRepository $reviewRepository): Response
     {
@@ -28,7 +28,7 @@ class BackReviewController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_back_review_new", methods={"GET", "POST"})
+     * @Route("/new", name="back_review_new", methods={"GET", "POST"})
      */
     public function new(Request $request, ReviewRepository $reviewRepository): Response
     {
@@ -40,7 +40,7 @@ class BackReviewController extends AbstractController
             $review->setCreatedAt(new DateTimeImmutable('now'));
             $reviewRepository->add($review, true);
 
-            return $this->redirectToRoute('app_back_review_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_review_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_review/new.html.twig', [
@@ -50,7 +50,7 @@ class BackReviewController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_review_show", methods={"GET"})
+     * @Route("/{id}", name="back_review_show", methods={"GET"})
      */
     public function show(Review $review): Response
     {
@@ -60,7 +60,7 @@ class BackReviewController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_back_review_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="back_review_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Review $review, ReviewRepository $reviewRepository): Response
     {
@@ -71,7 +71,7 @@ class BackReviewController extends AbstractController
             $review->setUpdatedAt(new DateTime ('now'));
             $reviewRepository->add($review, true);
 
-            return $this->redirectToRoute('app_back_review_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_review_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_review/edit.html.twig', [
@@ -81,7 +81,7 @@ class BackReviewController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_review_delete", methods={"POST"})
+     * @Route("/{id}", name="back_review_delete", methods={"POST"})
      */
     public function delete(Request $request, Review $review, ReviewRepository $reviewRepository): Response
     {
@@ -89,6 +89,6 @@ class BackReviewController extends AbstractController
             $reviewRepository->remove($review, true);
         }
 
-        return $this->redirectToRoute('app_back_review_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('back_review_index', [], Response::HTTP_SEE_OTHER);
     }
 }

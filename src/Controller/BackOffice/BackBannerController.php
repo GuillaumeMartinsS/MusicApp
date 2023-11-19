@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BackBannerController extends AbstractController
 {
     /**
-     * @Route("/", name="app_back_banner_index", methods={"GET"})
+     * @Route("/", name="back_banner_index", methods={"GET"})
      */
     public function index(BannerRepository $bannerRepository): Response
     {
@@ -28,7 +28,7 @@ class BackBannerController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_back_banner_new", methods={"GET", "POST"})
+     * @Route("/new", name="back_banner_new", methods={"GET", "POST"})
      */
     public function new(Request $request, BannerRepository $bannerRepository): Response
     {
@@ -40,7 +40,7 @@ class BackBannerController extends AbstractController
             $banner->setCreatedAt(new DateTimeImmutable('now'));
             $bannerRepository->add($banner, true);
 
-            return $this->redirectToRoute('app_back_banner_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_banner_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_banner/new.html.twig', [
@@ -50,7 +50,7 @@ class BackBannerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_banner_show", methods={"GET"})
+     * @Route("/{id}", name="back_banner_show", methods={"GET"})
      */
     public function show(Banner $banner): Response
     {
@@ -60,7 +60,7 @@ class BackBannerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_back_banner_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="back_banner_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Banner $banner, BannerRepository $bannerRepository): Response
     {
@@ -71,7 +71,7 @@ class BackBannerController extends AbstractController
             $banner->setUpdatedAt(new DateTime ('now'));
             $bannerRepository->add($banner, true);
 
-            return $this->redirectToRoute('app_back_banner_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_banner_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_banner/edit.html.twig', [
@@ -81,7 +81,7 @@ class BackBannerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_banner_delete", methods={"POST"})
+     * @Route("/{id}", name="back_banner_delete", methods={"POST"})
      */
     public function delete(Request $request, Banner $banner, BannerRepository $bannerRepository): Response
     {
@@ -89,6 +89,6 @@ class BackBannerController extends AbstractController
             $bannerRepository->remove($banner, true);
         }
 
-        return $this->redirectToRoute('app_back_banner_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('back_banner_index', [], Response::HTTP_SEE_OTHER);
     }
 }

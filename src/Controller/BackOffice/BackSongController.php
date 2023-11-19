@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BackSongController extends AbstractController
 {
     /**
-     * @Route("/", name="app_back_song_index", methods={"GET"})
+     * @Route("/", name="back_song_index", methods={"GET"})
      */
     public function index(SongRepository $songRepository): Response
     {
@@ -28,7 +28,7 @@ class BackSongController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_back_song_new", methods={"GET", "POST"})
+     * @Route("/new", name="back_song_new", methods={"GET", "POST"})
      */
     public function new(Request $request, SongRepository $songRepository): Response
     {
@@ -65,7 +65,7 @@ class BackSongController extends AbstractController
                 }
             $songRepository->add($song, true);
 
-            return $this->redirectToRoute('app_back_song_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_song_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_song/new.html.twig', [
@@ -75,7 +75,7 @@ class BackSongController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_song_show", methods={"GET"})
+     * @Route("/{id}", name="back_song_show", methods={"GET"})
      */
     public function show(Song $song): Response
     {
@@ -85,7 +85,7 @@ class BackSongController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_back_song_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="back_song_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Song $song, SongRepository $songRepository): Response
     {
@@ -129,7 +129,7 @@ class BackSongController extends AbstractController
                 }
             $songRepository->add($song, true);
 
-            return $this->redirectToRoute('app_back_song_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_song_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back_song/edit.html.twig', [
@@ -139,7 +139,7 @@ class BackSongController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_back_song_delete", methods={"POST"})
+     * @Route("/{id}", name="back_song_delete", methods={"POST"})
      */
     public function delete(Request $request, Song $song, SongRepository $songRepository): Response
     {
@@ -147,6 +147,6 @@ class BackSongController extends AbstractController
             $songRepository->remove($song, true);
         }
 
-        return $this->redirectToRoute('app_back_song_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('back_song_index', [], Response::HTTP_SEE_OTHER);
     }
 }
