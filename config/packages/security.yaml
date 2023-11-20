@@ -22,6 +22,13 @@ security:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            #doent work that way, need it to be on the main firewall
+            # custom_authenticator: App\Security\LoginFormAuthenticator
+            # logout:
+            #     path: app_logout
+            #     # where to redirect after logout
+            #     # target: app_any_route
+            #doent work that way, need it to be on the main firewall
 
         api:
             pattern:   ^/api
@@ -31,6 +38,13 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            # I put that here, was on "login" part of the firewall when I did Authentification command with Symfony
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+            # I put that here, was on "login" part of the firewall when I did Authentification command with Symfony
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
