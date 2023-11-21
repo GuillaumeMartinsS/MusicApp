@@ -81,7 +81,7 @@ class BackUserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="back_user_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user, UserPasswordHasherInterface $encoder, UserRepository $userRepository): Response
     {
         $userFirstPicture = $user->getPicture();
 
@@ -90,6 +90,7 @@ class BackUserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setUpdatedAt(new DateTime ('now'));
+            $user->setPassword($encoder->hashPassword($user, $user->getPassword()));
 
             $uploadFile = $form->get('picture')->getData();
 
