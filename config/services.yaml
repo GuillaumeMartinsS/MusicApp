@@ -32,6 +32,11 @@ services:
         arguments:
             $toLower: '%app.slugger_to_lower%'
 
+    acme_api.event.jwt_created_listener:
+        class: App\EventListener\JWTCreatedListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
     App\EventListener\SongListener:
         tags:
             -
@@ -91,3 +96,4 @@ services:
                 event: prePersist
                 entity: App\Entity\Genre
                 method: updateGenre
+                
