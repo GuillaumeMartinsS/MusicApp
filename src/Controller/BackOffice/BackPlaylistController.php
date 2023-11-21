@@ -39,8 +39,8 @@ class BackPlaylistController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $playlist->setCreatedAt(new DateTimeImmutable('now'));
             
-            //! To Do with an event :
-            $playlist->setSlug('slugachanger');
+            // did with an event
+            // $playlist->setSlug('slugachanger');
 
             $uploadFile = $form->get('picture')->getData();
 

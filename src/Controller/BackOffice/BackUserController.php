@@ -40,8 +40,8 @@ class BackUserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setCreatedAt(new DateTimeImmutable('now'));
 
-            //! To Do with an event :
-            $user->setSlug('slugachanger');
+            // now done with an event
+            // $user->setSlug('slugachanger');
 
             $user->setPassword($encoder->hashPassword($user, $user->getPassword()));
 

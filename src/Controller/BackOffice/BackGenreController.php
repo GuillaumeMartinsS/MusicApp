@@ -38,8 +38,8 @@ class BackGenreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $genre->setCreatedAt(new DateTimeImmutable('now'));
-            //! To Do with an event :
-            $genre->setSlug('slugachanger');
+            // now done with an event
+            // $genre->setSlug('slugachanger');
             $uploadFile = $form->get('picture')->getData();
 
                 if ($uploadFile) {
