@@ -3,9 +3,12 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,13 +34,46 @@ class UserType extends AbstractType
                 'placeholder' => 'Saisissez votre e-mail'
                 ]
         ])
-         ->add('password', PasswordType::class, [
-             'empty_data' => '',
-             'label' => 'Password',
-             'attr' => [
-                 'placeholder' => 'Saisissez votre mot de passe'
-                 ]       
-        ])
+        //  ->add('password', PasswordType::class, [
+        //      'empty_data' => '',
+        //      'label' => 'Password',
+        //      'attr' => [
+        //          'placeholder' => 'Saisissez votre mot de passe'
+        //          ]       
+        // ])
+        ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+            // getting the form to work on it
+            $form = $event->getForm();
+            // getting the mapped user on the form from the event
+            $user = $event->getData();
+            // dd($user);
+
+            // we make conditions for "passeword" field
+            // if user exists, then it gets an id (so =/= null)
+            if ($user->getId() !== null) {
+                // Edit
+                $form->add('password', PasswordType::class, [
+                    'mapped' => false,
+                    'label' => 'Password',
+                    'attr' => [
+                        'placeholder' => 'Laissez vide si inchangé'
+                    ]
+                ]);
+                // dd($form);
+            } else {
+                // New
+                $form->add('password', PasswordType::class, [
+                    'empty_data' => '',
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
+                    'label' => 'Password',
+                    'attr' => [
+                        'placeholder' => 'Saisissez votre mot de passe'
+                    ]  
+                ]);
+            }
+        })
         ->add('picture', FileType::class, array('data_class' => null), [
             // 'mapped' => false,
             'label' => 'Image',

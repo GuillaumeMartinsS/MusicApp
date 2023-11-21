@@ -79,8 +79,8 @@ class ApiUserController extends AbstractController
             return $this->json($myJsonError, $myJsonError->getError());
         }
 
-        //! TO CHANGE
-        $newUser->setSlug($dataDecoded->slug);
+        // now it's an event
+        // $newUser->setSlug($dataDecoded->slug);
 
         $newUser->setCertification(false);
         // dump($newUser);

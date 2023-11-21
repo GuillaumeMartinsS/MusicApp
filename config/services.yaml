@@ -6,6 +6,8 @@
 parameters:
     # Directory where medias uploaded by users goes :
     upload_directory: '%kernel.project_dir%/public/uploads'
+    # argument for slug service
+    app.slugger_to_lower: true
 
 services:
     # default configuration for services in *this* file
@@ -24,3 +26,74 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # argument for slug service
+    App\Service\MySlugger:
+        arguments:
+            $toLower: '%app.slugger_to_lower%'
+
+    acme_api.event.jwt_created_listener:
+        class: App\EventListener\JWTCreatedListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    App\EventListener\SongListener:
+        tags:
+            -
+                # The kind of event : here it is a doctrine entity listener event
+                name: doctrine.orm.entity_listener
+                # Name of the event : before update
+                event: preUpdate
+                # the entity with what we want to rely on
+                entity: App\Entity\Song
+                # method attribute is optional
+                method: updateSong
+            -
+                # The kind of event : here it is a doctrine entity listener event
+                name: doctrine.orm.entity_listener
+                # Name of the event : before update
+                event: prePersist
+                 # the entity with what we want to rely on
+                entity: App\Entity\Song
+                # method attribute is optional
+                method: updateSong
+
+    App\EventListener\UserListener:
+        tags:
+            -
+                name: doctrine.orm.entity_listener
+                event: preUpdate
+                entity: App\Entity\User
+                method: updateUser
+            -
+                name: doctrine.orm.entity_listener
+                event: prePersist
+                entity: App\Entity\User
+                method: updateUser
+
+    App\EventListener\PlaylistListener:
+        tags:
+            -
+                name: doctrine.orm.entity_listener
+                event: preUpdate
+                entity: App\Entity\Playlist
+                method: updatePlaylist
+            -
+                name: doctrine.orm.entity_listener
+                event: prePersist
+                entity: App\Entity\Playlist
+                method: updatePlaylist
+    
+    App\EventListener\GenreListener:
+        tags:
+            -
+                name: doctrine.orm.entity_listener
+                event: preUpdate
+                entity: App\Entity\Genre
+                method: updateGenre
+            -
+                name: doctrine.orm.entity_listener
+                event: prePersist
+                entity: App\Entity\Genre
+                method: updateGenre
+                

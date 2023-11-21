@@ -142,7 +142,7 @@ class ApiSongController extends AbstractController
     /**
      * @Route("/api/songs/edit/{id}", name="api_song_edit", methods={"POST"})
      */
-    public function updateMusic(EntityManagerInterface $entityManager, Song $song, Request $request,ValidatorInterface $validator)
+    public function updateSong(EntityManagerInterface $entityManager, Song $song, Request $request,ValidatorInterface $validator)
     {        
         // print_r($_FILES);
         // dd(ini_get('upload_max_filesize'));
