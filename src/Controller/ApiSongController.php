@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiSongController extends AbstractController
@@ -54,6 +55,7 @@ class ApiSongController extends AbstractController
     /**
      * Route to upload a song
      * @Route("/api/songs", name="api_song_create", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createSong(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, UserRepository $userRepository)
     {        
