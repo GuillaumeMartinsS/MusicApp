@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -54,6 +55,7 @@ class ApiUserController extends AbstractController
 
     /**
      * @Route("/api/users", name="api_user_create", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createUser(EntityManagerInterface $entityManager, Request $request, SerializerInterface $serializer, ValidatorInterface $validator, UserPasswordHasherInterface $hasher)
     {       
@@ -103,6 +105,7 @@ class ApiUserController extends AbstractController
 
     /**
      * @Route("/api/users/edit/{id}", name="api_user_edit", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function updateUser(Request $request, User $user, UserPasswordHasherInterface $hasher, EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {

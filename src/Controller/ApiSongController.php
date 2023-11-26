@@ -143,6 +143,7 @@ class ApiSongController extends AbstractController
 
     /**
      * @Route("/api/songs/edit/{id}", name="api_song_edit", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function updateSong(EntityManagerInterface $entityManager, Song $song, Request $request,ValidatorInterface $validator)
     {        
