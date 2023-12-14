@@ -8,14 +8,20 @@ use DateTimeImmutable;
 use App\Models\JsonError;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ApiUserController extends AbstractController
@@ -25,7 +31,6 @@ class ApiUserController extends AbstractController
      */
     public function listUser(UserRepository $userRepository): Response
     {
-        // dd($userRepository);
         return $this->json(
             $userRepository->findAll(),
             200,
@@ -40,16 +45,23 @@ class ApiUserController extends AbstractController
     public function showUser(User $user = null)
     {
         // dump($user);
+        // Serialize your object in Json
+        // $jsonObject = $serializer->serialize($user, 'json', [
+        // 'circular_reference_handler' => function ($user) {
+        //     return $user->getId();
+        // }]);
+
+
         if ($user === null){
-            $error = new JsonError(Response::HTTP_NOT_FOUND, User::class . ' non trouvé');
-            return $this->json($error, $error->getError());
+             $error = new JsonError(Response::HTTP_NOT_FOUND, User::class . ' non trouvé');
+             return $this->json($error, $error->getError());
         }
 
         return $this->json(
             $user,
             Response::HTTP_OK,
             [],
-            ['groups' => 'show_user']
+            ['groups'=> ['show_user']]
         );
     }
 
