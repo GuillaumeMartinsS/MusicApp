@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
@@ -23,6 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $id;
 
@@ -32,6 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $email;
 
@@ -41,6 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $roles = [];
 
@@ -49,6 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      * @Groups({"list_song"})
      * @Groups({"show_song"})
+     * @MaxDepth(1)
      */
     private $password;
 
@@ -58,6 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $name;
 
@@ -67,6 +73,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $picture;
 
@@ -76,6 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $description;
 
@@ -85,6 +93,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $status;
 
@@ -94,6 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $certification;
 
@@ -103,6 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $label;
 
@@ -112,6 +123,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $slug;
 
@@ -121,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $createdAt;
 
@@ -130,6 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"show_song"})
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $updatedAt;
 
@@ -137,6 +151,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="user")
      * @Groups({"list_user"})
      * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $reviews;
 
@@ -152,11 +167,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="subcribers")
+     * @MaxDepth(1)
      */
     private $subscriptions;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="subscriptions")
+     * @Groups({"list_user"})
+     * @Groups({"show_user"})
+     * @MaxDepth(1)
      */
     private $subcribers;
 

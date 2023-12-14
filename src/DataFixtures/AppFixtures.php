@@ -177,41 +177,46 @@ class AppFixtures extends Fixture
             
             // TODO /************* Users Relation *************/
     
-            // $currentUser = $allUserEntity[mt_rand(0, count($allUserEntity) - 1)];
+            for ($i = 0; $i<= count($allUserEntity) - 1; $i++)
+            {
+                $currentUser = $allUserEntity[$i];
     
-            // for ($i = 1; $i<= rand(1, 5); $i++) 
-            // {
+                for ($j = 1; $j < 2; $j++) 
+                {
+        
+                    $randomUser = $allUserEntity[mt_rand(0, count($allUserEntity) - 1)];
+        
+                    if($randomUser->getEmail() === $currentUser->getEmail())
+                    {
+                        break;
+                    }
+        
+                    else 
+                    {
+                        $currentUser->addSubscription($randomUser);
+                        $randomUser->addSubcriber($currentUser);
+                    }
+                }
+        
+                // for ($j = 1; $j < rand(1, 5); $j++) 
+                // {
+        
+                //     $randomUser = $allUserEntity[mt_rand(0, count($allUserEntity) - 1)];
+        
+                //     if($randomUser->getEmail() === $currentUser->getEmail())
+                //     {
+                //         break;
+                //     }
+        
+                //     else 
+                //     {
+                //         $currentUser->addSubcriber($randomUser);
+                //     }
+                // }
     
-            //     $randomUser = $allUserEntity[mt_rand(0, count($allUserEntity) - 1)];
-    
-            //     if($randomUser->getEmail() === $currentUser->getEmail())
-            //     {
-            //         break;
-            //     }
-    
-            //     else 
-            //     {
-            //         $currentUser->addUser($randomUser);
-            //     }
-            // }
-    
-            // for ($i = 1; $i<= rand(1, 5); $i++) 
-            // {
-    
-            //     $randomUser = $allUserEntity[mt_rand(0, count($allUserEntity) - 1)];
-    
-            //     if($randomUser->getEmail() === $currentUser->getEmail())
-            //     {
-            //         break;
-            //     }
-    
-            //     else 
-            //     {
-            //         $currentUser->addSubscriber($randomUser);
-            //     }
-            // }
-    
-            // $manager->persist($currentUser);
+            $manager->persist($currentUser);
+
+            }
     
     
             /************* Song *************/
