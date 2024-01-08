@@ -399,4 +399,9 @@ class Song
 
         return $this;
     }
+
+    public function isLikedByUser(User $user): bool
+    {
+        return $this->likes->contains($user);
+    }
 }

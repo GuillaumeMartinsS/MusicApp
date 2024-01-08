@@ -235,4 +235,34 @@ class ApiSongController extends AbstractController
             ['groups' => ['show_song']]
         );
     }
+
+    /**
+     * @Route("/api/songs/like/{id}", name="api_song_like", methods={"GET"})
+     */
+    public function likeSong(Song $song, EntityManagerInterface $entityManager) : Response
+    {
+        $user = $this->getUser();
+
+        if ($song->isLikedByUser($user))
+        {
+            $song->removeLike($user);
+            $entityManager->flush();
+        }
+
+        else
+        {
+            $song->addLike($user);
+            $entityManager->flush();
+
+        }
+
+        return $this->json(
+            $song,
+            200,
+            [],
+            ['groups' => ['show_song']]
+        );
+        
+
+    }
 }
