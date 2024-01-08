@@ -179,6 +179,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $subcribers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Song::class, mappedBy="likes")
+     */
+    private $likedSongs;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
@@ -186,6 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->songs = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->subcribers = new ArrayCollection();
+        $this->likedSongs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -515,6 +521,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->subcribers->removeElement($subcriber)) {
             $subcriber->removeSubscription($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Song>
+     */
+    public function getLikedSongs(): Collection
+    {
+        return $this->likedSongs;
+    }
+
+    public function addLikedSong(Song $likedSong): self
+    {
+        if (!$this->likedSongs->contains($likedSong)) {
+            $this->likedSongs[] = $likedSong;
+            $likedSong->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedSong(Song $likedSong): self
+    {
+        if ($this->likedSongs->removeElement($likedSong)) {
+            $likedSong->removeLike($this);
         }
 
         return $this;
