@@ -235,4 +235,29 @@ class ApiUserController extends AbstractController
         );
 
     }
+
+    /**
+     * @Route("/api/songs/subscribe/{id}", name="api_user_subscribe", methods={"GET"})
+     */
+    public function subscribeUser(User $user, EntityManagerInterface $entityManager) : Response
+    {
+        $subscriber = $this->getUser();
+
+        if($subscriber->isAlreadyASubscriber($user))
+        {
+            $subscriber->removeSubscription($user);
+            $user->removeSubcriber($subscriber);
+            $entityManager->flush();
+            return $this->json($subscriber->getName() . ' is no more subscribe to ' . $user->getName());
+        }
+
+        else
+        {
+            $subscriber->addSubscription($user);
+            $user->addSubcriber($subscriber);
+            $entityManager->flush();
+            return $this->json($subscriber->getName() . ' is now subscribe to ' . $user->getName());
+        }
+        
+    }
 }

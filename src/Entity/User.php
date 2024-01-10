@@ -552,4 +552,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
+    public function isAlreadyASubscriber(User $user): bool
+    {
+        return $this->subscriptions->contains($user);
+    }
 }
