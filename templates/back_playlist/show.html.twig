@@ -43,6 +43,20 @@
                     <td>{{ playlist.slug }}</td>
                 </tr>
                 <tr>
+                    <th>User</th>
+                    <td>{{ playlist.user.name }}</td>
+                </tr>
+                <tr>
+                    <th>Songs</th>
+                    {% for song in playlist.songs %}
+                        <td>{{ song.title }}</td>
+                    {% else %}
+                        <tr>
+                            <td colspan="11">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tr>
+                <tr>
                     <th>CreatedAt</th>
                     <td>{{ playlist.createdAt ? playlist.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
