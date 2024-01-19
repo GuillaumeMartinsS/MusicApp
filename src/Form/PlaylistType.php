@@ -55,13 +55,13 @@ class PlaylistType extends AbstractType
                 'class' => User::class,                
                 'choice_label' => 'name',
                 'multiple' => false,
-                'expanded' => true,])
+                'expanded' => false,])
 
             ->add('songs', EntityType::class,[
                 'class' => Song::class,                
                 'choice_label' => 'title',
                 'multiple' => true,
-                'expanded' => true,])
+                'expanded' => false,])
         ;
     }
 
