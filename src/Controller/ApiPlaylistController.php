@@ -53,7 +53,7 @@ class ApiPlaylistController extends AbstractController
     /**
      * @Route("/api/playlists", name="api_playlist_create", methods={"POST"})
      */
-    public function new(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, UserRepository $userRepository, SongRepository $songRepository)
+    public function createPlaylist(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, UserRepository $userRepository, SongRepository $songRepository)
     {
         $newPlaylist = new Playlist();
 
@@ -113,7 +113,7 @@ class ApiPlaylistController extends AbstractController
     /**
      * @Route("/api/playlists/edit/{id}", name="api_playlist_edit", methods={"POST"})
      */
-    public function update(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, Playlist $playlist, UserRepository $userRepository, SongRepository $songRepository)
+    public function updatePlaylist(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, Playlist $playlist, UserRepository $userRepository, SongRepository $songRepository)
     {
         
         if ($request->request->get('name')!== null) {
