@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use DateTimeImmutable;
 use App\Entity\Playlist;
 use App\Models\JsonError;
@@ -52,7 +53,7 @@ class ApiPlaylistController extends AbstractController
     /**
      * @Route("/api/playlists", name="api_playlist_create", methods={"POST"})
      */
-    public function new(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, UserRepository $userRepository, SongRepository $songRepository)
+    public function createPlaylist(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, UserRepository $userRepository, SongRepository $songRepository)
     {
         $newPlaylist = new Playlist();
 
@@ -109,5 +110,92 @@ class ApiPlaylistController extends AbstractController
         );
     }
 
+    /**
+     * @Route("/api/playlists/edit/{id}", name="api_playlist_edit", methods={"POST"})
+     */
+    public function updatePlaylist(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, Playlist $playlist, UserRepository $userRepository, SongRepository $songRepository)
+    {
+        
+        if ($request->request->get('name')!== null) {
+            $playlist->setName($request->request->get('name'));
+        }
+        
+        if ($request->request->get('description')!== null) {
+            $playlist->setDescription($request->request->get('description'));
+        }
 
+        if ($request->request->get('album')!== null) {
+            $playlist->setDescription($request->request->get('album'));
+        }
+
+        $playlist->setUpdatedAt(new DateTime('now'));
+
+        $uploadFile = $request->files->get('picture');
+
+        if ($uploadFile !== null) {
+        {
+            $uploadedName = md5(uniqid()) . '.' . $uploadFile->guessExtension();
+                
+            $errors = $validator->validate($uploadFile, new Image([]));
+        
+            // if errors are found, we send a Json error
+            if (count($errors) > 0) {
+        
+                $myJsonError = new JsonError(Response::HTTP_UNPROCESSABLE_ENTITY, "Des erreurs de validation ont été trouvées");
+                $myJsonError->setValidationErrors($errors);
+                    
+                return $this->json($myJsonError, $myJsonError->getError());
+                }
+            
+        
+            // f no error is found, we move the file to the upload_directory setting on the services.yaml file
+            $uploadFile->move(
+                $this->getParameter('upload_directory'),
+                $uploadedName
+                );
+    
+            $playlist->setPicture($uploadedName);
+            }
+        }
+        
+
+        if ($request->request->get('songs')!== null) 
+        {
+            $songs = json_decode($request->request->get('songs'));
+
+            foreach ($songs as $key => $song)
+            {
+                $playlist->addSong($songRepository->find($song));
+            }
+        }
+
+        $entityManager->persist($playlist);
+        $entityManager->flush();
+
+        return $this->json(
+            $playlist,
+            Response::HTTP_CREATED,
+            [],
+            ['groups' => ['show_playlist']]
+        );
+    
+
+
+    }
+
+    /**
+     * @Route("/api/playlists/delete/{id}", name="api_playlist_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Playlist $playlist, PlaylistRepository $playlistRepository)
+    {
+        $playlistRepository->remove($playlist, true);
+
+        return $this->json(
+            'La playlist a bien été supprimée',
+            Response::HTTP_CREATED,
+            [],
+            []
+        );
+        
+    }
 }
