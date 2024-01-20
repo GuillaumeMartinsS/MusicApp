@@ -182,4 +182,20 @@ class ApiPlaylistController extends AbstractController
 
 
     }
+
+    /**
+     * @Route("/api/playlists/delete/{id}", name="api_playlist_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Playlist $playlist, PlaylistRepository $playlistRepository)
+    {
+        $playlistRepository->remove($playlist, true);
+
+        return $this->json(
+            'La playlist a bien été supprimée',
+            Response::HTTP_CREATED,
+            [],
+            []
+        );
+        
+    }
 }
