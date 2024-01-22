@@ -31,6 +31,24 @@ class ApiReviewController extends AbstractController
     }
 
     /**
+     * @Route("/api/reviews/{id}", name="api_review_id", methods={"GET"})
+     */
+    public function showReview(Review $review = null)
+    {
+        if ($review === null){
+            $error = new JsonError(Response::HTTP_NOT_FOUND, Review::class . ' non trouvé');
+            return $this->json($error, $error->getError());
+        }
+
+        return $this->json(
+            $review,
+            Response::HTTP_OK,
+            [],
+            ['groups' => 'show_review']
+        );
+    }
+
+    /**
      * @Route("/api/reviews", name="api_review_create", methods={"POST"})
      */
     public function createReview(EntityManagerInterface $entityManager, Request $request, ValidatorInterface $validator, SongRepository $songRepository)
@@ -61,20 +79,18 @@ class ApiReviewController extends AbstractController
     }
 
     /**
-     * @Route("/api/reviews/{id}", name="api_review_id", methods={"GET"})
+     * @Route("/api/reviews/delete/{id}", name="api_review_delete", methods={"POST"})
      */
-    public function showReview(Review $review = null)
+    public function delete(Request $request, Review $review, ReviewRepository $ReviewRepository)
     {
-        if ($review === null){
-            $error = new JsonError(Response::HTTP_NOT_FOUND, Review::class . ' non trouvé');
-            return $this->json($error, $error->getError());
-        }
+        $ReviewRepository->remove($review, true);
 
         return $this->json(
-            $review,
-            Response::HTTP_OK,
+            'La Review a bien été supprimée',
+            Response::HTTP_CREATED,
             [],
-            ['groups' => 'show_review']
+            []
         );
+        
     }
 }
