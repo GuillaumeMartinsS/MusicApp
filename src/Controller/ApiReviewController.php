@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Review;
 use DateTimeImmutable;
 use App\Models\JsonError;
@@ -72,6 +73,33 @@ class ApiReviewController extends AbstractController
 
         return $this->json(
             $newReview,
+            Response::HTTP_CREATED,
+            [],
+            ['groups' => ['show_review']]
+        );
+    }
+
+    /**
+     * @Route("/api/reviews/edit/{id}", name="api_review_create", methods={"POST"})
+     */
+    public function updateReview(EntityManagerInterface $entityManager, Request $request, Review $review)
+    {
+        $data = $request->getContent();
+        $dataDecoded = json_decode($data);
+
+        if (isset($dataDecoded->title)) {
+        $review->setTitle($dataDecoded->title);}
+
+        if (isset($dataDecoded->content)) {
+        $review->setContent($dataDecoded->content);}
+
+        $review->setUpdatedAt(new DateTime('now'));
+
+        $entityManager->persist($review);
+        $entityManager->flush();
+
+        return $this->json(
+            $review,
             Response::HTTP_CREATED,
             [],
             ['groups' => ['show_review']]
